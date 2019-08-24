@@ -5,8 +5,9 @@ namespace Kolirt\Ukrposhta\Facade;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static array getRegions()
- * @method static array getRegionsByName(string $region_name, string $lang = 'uk')
+ * @method static array getRegions(string $region_name = null, string $lang = 'uk')
+ * @method static array getDistricts(string $district_name = null, int $region_id = null)
+ * @method static array getCities(string $city_name = null, int $district_id = null, int $region_id = null)
  */
 class Ukrposhta extends Facade
 {
