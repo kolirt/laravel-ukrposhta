@@ -1,4 +1,5 @@
 # Laravel Ukrposhta
+This package was created for [api UkrPoshta](https://dev.ukrposhta.ua/documentation).
 
 ## Installation
 ```
@@ -13,18 +14,24 @@ All available methods:
 - [Get regions](#get-regions)
 - [Get districts](#get-districts)
 - [Get cities](#get-cities)
+- [Get streets](#get-streets)
 
-#### Get regions
+### Get regions
 Available $lang: uk, en.
 ```
 Kolirt\Ukrposhta\Facade\Ukrposhta::getRegions([string $region_name = null [, string $lang = 'uk']]);
 ```
-#### Get districts
+### Get districts
 ```
 Kolirt\Ukrposhta\Facade\Ukrposhta::getDistricts([string $district_name = null [, int $region_id = null]]);
 ```
 
-#### Get cities
+### Get cities
 ```
 Kolirt\Ukrposhta\Facade\Ukrposhta::getCities([string $city_name = null [, int $district_id = null [, int $region_id = null]]]);
+```
+
+### Get streets
+```
+Kolirt\Ukrposhta\Facade\Ukrposhta::getStreets([string $street_name = null [, int $city_id = null [, int $district_id = null [, int $region_id = null]]]]);
 ```

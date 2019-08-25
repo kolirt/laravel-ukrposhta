@@ -96,6 +96,32 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
+    /*
+     * Get streets
+     */
+    public function getStreets(string $street_name = null, int $city_id = null, int $district_id = null, int $region_id = null): array
+    {
+        $query = [];
+        if (!empty($street_name)) {
+            $query['street_ua'] = $street_name;
+        }
+        if (!empty($city_id)) {
+            $query['city_id'] = $city_id;
+        }
+        if (!empty($district_id)) {
+            $query['district_id'] = $district_id;
+        }
+        if (!empty($region_id)) {
+            $query['region_id'] = $region_id;
+        }
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_street_by_region_id_and_district_id_and_city_id_and_street_ua', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
 
 
 }
