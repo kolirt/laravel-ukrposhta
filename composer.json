@@ -1,6 +1,6 @@
 {
   "name": "kolirt/laravel-ukrposhta",
-  "description": "Package for ukrposhta",
+  "description": "This package was created for UkrPoshta API.",
   "keywords": [
     "laravel",
     "laravel-ukrposhta"

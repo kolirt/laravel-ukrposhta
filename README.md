@@ -1,5 +1,5 @@
 # Laravel Ukrposhta
-This package was created for [api UkrPoshta](https://dev.ukrposhta.ua/documentation).
+This package was created for [UkrPoshta API](https://dev.ukrposhta.ua/documentation).
 
 ## Installation
 ```
