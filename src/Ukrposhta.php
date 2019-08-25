@@ -4,6 +4,7 @@ namespace Kolirt\Ukrposhta;
 
 use GuzzleHttp\Client;
 use Exception;
+use mysql_xdevapi\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
 class Ukrposhta
@@ -25,8 +26,13 @@ class Ukrposhta
         ]);
     }
 
-    /*
-     * Get regions
+    /**
+     * Сервіс для отримання переліку областей (з можливістю пошуку за частиною назви).
+     *
+     * @param string|null $region_name
+     * @param string $lang
+     * @return array
+     * @throws Exception
      */
     public function getRegions(string $region_name = null, string $lang = 'uk'): array
     {
@@ -52,6 +58,8 @@ class Ukrposhta
     }
 
     /**
+     * Сервіс для отримання переліку районів (з можливістю пошуку за частиною назви).
+     *
      * @param string|null $district_name
      * @param int|null $region_id
      * @return array
@@ -75,6 +83,8 @@ class Ukrposhta
     }
 
     /**
+     * Сервіс для отримання переліку населених пунктів (з можливістю пошуку за частиною назви).
+     *
      * @param string|null $city_name
      * @param int|null $district_id
      * @param int|null $region_id
@@ -102,6 +112,8 @@ class Ukrposhta
     }
 
     /**
+     * Сервіс для отримання переліку вулиць населених пунктів міст із деталізацією району та області (з можливістю пошуку за частиною назви).
+     *
      * @param string|null $street_name
      * @param int|null $city_id
      * @param int|null $district_id
@@ -133,6 +145,8 @@ class Ukrposhta
     }
 
     /**
+     * Сервіс для отримання переліку будинків вулиць (з можливістю пошуку за ідентифікатором вулиці).
+     *
      * @param int $street_id
      * @param string|null $house_number
      * @return array
@@ -154,6 +168,8 @@ class Ukrposhta
     }
 
     /**
+     * Сервіс для отримання інформації про поштове відділення (з можливістю пошуку за індексом поштового відділення).
+     *
      * @param string|null $zip_code
      * @param int|null $street_id
      * @param int|null $city_id
@@ -200,5 +216,30 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
+    /**
+     * Сервіс для отримання інформації про графік роботи поштового відділення (з можливістю пошуку за індексом поштового відділення).
+     *
+     * @param string $zip_code
+     * @param int|null $post_office_id
+     * @return array
+     */
+    public function getPostOfficesOpenHours(string $zip_code, int $post_office_id = null): array
+    {
+        $query = [];
+        if (!empty($zip_code)) {
+            $query['pc'] = $zip_code;
+        }
+        if (!empty($post_office_id)) {
+            $query['id'] = $post_office_id;
+        }
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_postoffices_openhours_by_postindex', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        $response = $response->Entries->Entry ?? [];
+        return !empty($post_office_id) ? $response : collect($response)->groupBy('id')->toArray();
+    }
 
 }
