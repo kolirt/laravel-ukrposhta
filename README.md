@@ -15,6 +15,7 @@ All available methods:
 - [Get districts](#get-districts)
 - [Get cities](#get-cities)
 - [Get streets](#get-streets)
+- [Get houses](#get-houses)
 
 ### Get regions
 Available $lang: uk, en.
@@ -34,4 +35,9 @@ Kolirt\Ukrposhta\Facade\Ukrposhta::getCities([string $city_name = null [, int $d
 ### Get streets
 ```
 Kolirt\Ukrposhta\Facade\Ukrposhta::getStreets([string $street_name = null [, int $city_id = null [, int $district_id = null [, int $region_id = null]]]]);
+```
+
+### Get houses
+```
+Kolirt\Ukrposhta\Facade\Ukrposhta::getHouses(int $street_id [, string $house_number = null]);
 ```

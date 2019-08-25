@@ -123,5 +123,26 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
+    /*
+     * Get streets
+     */
+    public function getHouses(int $street_id, string $house_number = null): array
+    {
+        $query = [];
+        if (!empty($house_number)) {
+            $query['housenumber'] = $house_number;
+        }
+        if (!empty($street_id)) {
+            $query['street_id'] = $street_id;
+        }
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_addr_house_by_street_id', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
+
 
 }
