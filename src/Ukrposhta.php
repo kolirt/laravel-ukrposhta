@@ -18,7 +18,7 @@ class Ukrposhta
     {
         $this->client = new Client([
             'base_uri' => $this->api,
-            //            'timeout'  => config('ukrposhta.timeout', 3),
+            'timeout'  => config('ukrposhta.timeout', 3),
             'headers'  => [
                 'Accept' => 'application/json'
             ]
@@ -51,8 +51,10 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
-    /*
-     * Get regions
+    /**
+     * @param string|null $district_name
+     * @param int|null $region_id
+     * @return array
      */
     public function getDistricts(string $district_name = null, int $region_id = null): array
     {
@@ -72,8 +74,11 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
-    /*
-     * Get regions
+    /**
+     * @param string|null $city_name
+     * @param int|null $district_id
+     * @param int|null $region_id
+     * @return array
      */
     public function getCities(string $city_name = null, int $district_id = null, int $region_id = null): array
     {
@@ -96,8 +101,12 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
-    /*
-     * Get streets
+    /**
+     * @param string|null $street_name
+     * @param int|null $city_id
+     * @param int|null $district_id
+     * @param int|null $region_id
+     * @return array
      */
     public function getStreets(string $street_name = null, int $city_id = null, int $district_id = null, int $region_id = null): array
     {
@@ -123,20 +132,67 @@ class Ukrposhta
         return $response->Entries->Entry ?? [];
     }
 
-    /*
-     * Get streets
+    /**
+     * @param int $street_id
+     * @param string|null $house_number
+     * @return array
      */
     public function getHouses(int $street_id, string $house_number = null): array
     {
         $query = [];
+        $query['street_id'] = $street_id;
         if (!empty($house_number)) {
             $query['housenumber'] = $house_number;
         }
-        if (!empty($street_id)) {
-            $query['street_id'] = $street_id;
-        }
 
         $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_addr_house_by_street_id', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
+
+    /**
+     * @param string|null $zip_code
+     * @param int|null $street_id
+     * @param int|null $city_id
+     * @param int|null $district_id
+     * @param int|null $region_id
+     * @param int|null $additionally_city_id
+     * @param int|null $additionally_district_id
+     * @param int|null $additionally_region_id
+     * @return array
+     */
+    public function getPostOffices(string $zip_code = null, int $street_id = null, int $city_id = null, int $district_id = null, int $region_id = null, int $additionally_city_id = null, int $additionally_district_id = null, int $additionally_region_id = null): array
+    {
+        $query = [];
+        if (!empty($zip_code)) {
+            $query['pi'] = $zip_code;
+        }
+        if (!empty($street_id)) {
+            $query['poStreetId'] = $street_id;
+        }
+        if (!empty($city_id)) {
+            $query['poCityId'] = $city_id;
+        }
+        if (!empty($district_id)) {
+            $query['poDistrictId'] = $district_id;
+        }
+        if (!empty($region_id)) {
+            $query['poRegionId'] = $region_id;
+        }
+        if (!empty($additionally_city_id)) {
+            $query['pdCityId'] = $additionally_city_id;
+        }
+        if (!empty($additionally_district_id)) {
+            $query['pdDistrictId'] = $additionally_district_id;
+        }
+        if (!empty($additionally_region_id)) {
+            $query['pdRegionId'] = $additionally_region_id;
+        }
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_postoffices_by_postindex', [
             'query' => $query
         ]);
 
