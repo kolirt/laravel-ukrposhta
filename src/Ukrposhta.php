@@ -13,6 +13,12 @@ class Ukrposhta
     private $client;
     private $api = 'https://ukrposhta.ua/';
 
+    const COUNTRY_CODES = [
+        'uk' => 'UA',
+        'en' => 'EN',
+        'ru' => 'RU'
+    ];
+
     const ADDRESS_CLASSIFIER = 'address-classifier';
 
     public function __construct()
@@ -258,6 +264,58 @@ class Ukrposhta
         $query['maxdistance'] = $radius;
 
         $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_postoffices_by_geolocation', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
+
+    /**
+     * Сервіс для отримання інформації про область, район і населений пункт за індексом (з можливістю отримання інформації на різних мовах).
+     *
+     * @param string $zip
+     * @param string $lang
+     * @return array
+     * @throws Exception
+     */
+    public function getCitiesByPostcode(string $zip, string $lang = 'uk'): array
+    {
+        if (!in_array($lang, ['uk', 'en', 'ru'])) {
+            throw new Exception('Invalid language. Available languages: uk, en, ru.');
+        }
+
+        $query = [];
+        $query['postcode'] = $zip;
+        $query['lang'] = self::COUNTRY_CODES[$lang];
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_city_details_by_postcode', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
+
+    /**
+     * Сервіс для отримання адресної інформації за індексом (з можливістю отримання інформації на різних мовах).
+     *
+     * @param string $zip
+     * @param string $lang
+     * @return array
+     * @throws Exception
+     */
+    public function getAddressesByPostcode(string $zip, string $lang = 'uk'): array
+    {
+        if (!in_array($lang, ['uk', 'en', 'ru'])) {
+            throw new Exception('Invalid language. Available languages: uk, en, ru.');
+        }
+
+        $query = [];
+        $query['postcode'] = $zip;
+        $query['lang'] = self::COUNTRY_CODES[$lang];
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_address_by_postcode', [
             'query' => $query
         ]);
 
