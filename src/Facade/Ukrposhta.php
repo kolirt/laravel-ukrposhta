@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getHouses(int $street_id, string $house_number = null)
  * @method static array getPostOffices(string $zip_code = null, int $street_id = null, int $city_id = null, int $district_id = null, int $region_id = null, int $additionally_city_id = null, int $additionally_district_id = null, int $additionally_region_id = null)
  * @method static array getPostOfficesOpenHours(string $zip_code, int $post_office_id = null)
+ * @method static array getPostOfficesByGeolocation(float $lat, float $lng, int $radius = 1)
  */
 class Ukrposhta extends Facade
 {

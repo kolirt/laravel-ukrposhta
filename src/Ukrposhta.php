@@ -242,4 +242,27 @@ class Ukrposhta
         return !empty($post_office_id) ? $response : collect($response)->groupBy('id')->toArray();
     }
 
+    /**
+     * Сервіс для отримання інформації про найближчі поштові відділення (з можливістю пошуку за геокоординатами).
+     *
+     * @param float $lat
+     * @param float $lng
+     * @param int $radius
+     * @return array
+     */
+    public function getPostOfficesByGeolocation(float $lat, float $lng, int $radius = 1): array
+    {
+        $query = [];
+        $query['lat'] = $lat;
+        $query['long'] = $lng;
+        $query['maxdistance'] = $radius;
+
+        $request = $this->client->get(self::ADDRESS_CLASSIFIER . '/get_postoffices_by_geolocation', [
+            'query' => $query
+        ]);
+
+        $response = json_decode($request->getBody()->getContents());
+        return $response->Entries->Entry ?? [];
+    }
+
 }

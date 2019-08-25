@@ -18,6 +18,7 @@ All available methods:
 - [Get houses](#get-houses) - сервіс для отримання переліку будинків вулиць (з можливістю пошуку за ідентифікатором вулиці).
 - [Get post offices](#get-post-offices) - сервіс для отримання інформації про поштове відділення (з можливістю пошуку за індексом поштового відділення).
 - [Get post offices open hours](#get-post-offices-open-hours) - cервіс для отримання інформації про графік роботи поштового відділення (з можливістю пошуку за індексом поштового відділення).
+- [Get post offices by geolocation](#get-post-offices-by-geolocation) - сервіс для отримання інформації про найближчі поштові відділення (з можливістю пошуку за геокоординатами).
 
 ### Get regions
 Сервіс для отримання переліку областей (з можливістю пошуку за частиною назви).
@@ -60,4 +61,11 @@ Kolirt\Ukrposhta\Facade\Ukrposhta::getPostOffices([string $zip_code = null [, in
 Сервіс для отримання інформації про графік роботи поштового відділення (з можливістю пошуку за індексом поштового відділення).
 ```
 Kolirt\Ukrposhta\Facade\Ukrposhta::getPostOfficesOpenHours(string $zip_code [, int $post_office_id = null]);
+```
+
+
+### Get post offices by geolocation
+Сервіс для отримання інформації про найближчі поштові відділення (з можливістю пошуку за геокоординатами).
+```
+Kolirt\Ukrposhta\Facade\Ukrposhta::getPostOfficesByGeolocation(float $lat, float $lng [, int $radius = 1]);
 ```
