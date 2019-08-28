@@ -3,7 +3,7 @@ This package was created for [UkrPoshta API](https://dev.ukrposhta.ua/documentat
 
 ## Installation
 ```
-$ composer require kolirt/laravel-ukposhta
+$ composer require kolirt/laravel-ukrposhta
 ```
 ```
 $ php artisan ukrposhta:install
