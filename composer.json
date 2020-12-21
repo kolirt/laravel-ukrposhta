@@ -6,14 +6,16 @@
     "laravel-ukrposhta"
   ],
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     {
       "name": "Asan Abdurakhmanov",
       "email": "asan11@outlook.com"
     }
   ],
-  "require": {},
+  "require": {
+    "guzzlehttp/guzzle": "> 6.0.0"
+  },
   "autoload": {
     "files": [
       "src/helpers.php"
