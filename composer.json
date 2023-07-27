@@ -1,0 +1,36 @@
+{
+  "name": "kolirt/laravel-ukrposhta",
+  "description": "This package was created for UkrPoshta API.",
+  "keywords": [
+    "laravel",
+    "laravel-ukrposhta"
+  ],
+  "license": "MIT",
+  "version": "1.0.2",
+  "authors": [
+    {
+      "name": "kolirt"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "> 6.0.0"
+  },
+  "autoload": {
+    "files": [
+      "src/helpers.php"
+    ],
+    "psr-4": {
+      "Kolirt\\Ukrposhta\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Kolirt\\Ukrposhta\\ServiceProvider"
+      ],
+      "aliases": {
+        "Ukrposhta": "Kolirt\\Ukrposhta\\Facade\\Ukrposhta"
+      }
+    }
+  }
+}
