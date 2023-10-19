@@ -11,7 +11,7 @@ class Ukrposhta
 {
 
     private $client;
-    private $api = 'https://ukrposhta.ua/';
+    private $api;
 
     const COUNTRY_CODES = [
         'uk' => 'UA',
@@ -23,6 +23,8 @@ class Ukrposhta
 
     public function __construct()
     {
+        $this->api = config('ukrposhta.api');
+
         $this->client = new Client([
             'base_uri' => $this->api,
             'timeout'  => config('ukrposhta.timeout', 3),
